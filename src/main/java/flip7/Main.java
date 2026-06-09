@@ -17,6 +17,8 @@ public class Main extends Application {
     private boolean somLigado = true;
     private double volume = 50;
 
+    private int numJogadores = 2;
+
     @Override
     public void start(Stage stage) {
         root = new StackPane();
@@ -106,10 +108,18 @@ public class Main extends Application {
 
     private void mostrarJogo() {
         root.getChildren().clear();
-
-        JogoView jogoView = new JogoView(() -> mostrarMenuPrincipal());
-
+        JogoView jogoView = new JogoView(numJogadores,
+                () -> mostrarMenuPrincipal(),
+                v -> mostrarVencedor(v));
         root.getChildren().add(jogoView);
+    }
+
+    private void mostrarVencedor(int vencedor) {
+        root.getChildren().clear();
+        VictoryView vv = new VictoryView(vencedor,
+                () -> mostrarMenuPrincipal(),
+                () -> mostrarJogo());
+        root.getChildren().add(vv);
     }
 
     private void mostrarDefinicoes() {

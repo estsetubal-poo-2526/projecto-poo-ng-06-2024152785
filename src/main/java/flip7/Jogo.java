@@ -1,110 +1,75 @@
 package flip7;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Jogo {
-
-    private int jogadorAtual;
-    private int pontuacaoJogador1;
-    private int pontuacaoJogador2;
-
-    private List<Integer> baralho;
-    private List<Integer> cartasMao;
-
+    private List<Jogador> jogadores;
+    private int indiceJogadorAtual;
+    private Baralho baralho;
+    private Mesa mesa;
     private String mensagem;
 
-    public Jogo() {
-        jogadorAtual = 1;
-        pontuacaoJogador1 = 0;
-        pontuacaoJogador2 = 0;
-        baralho = criarBaralho();
-        cartasMao = new ArrayList<>();
-        mensagem = "Toca no baralho para tirar cartas";
+    public Jogo(int numJogadores) {
+        jogadores = new ArrayList<>();
+        for (int i = 1; i <= numJogadores; i++) {
+            jogadores.add(new Jogador("Jogador " + i));
+        }
+        indiceJogadorAtual = 0;
+        baralho = new Baralho();
+        mesa = new Mesa();
+        mensagem = "Toca no baralho para começar!";
     }
 
     public void tirarCarta() {
-        if (baralho.isEmpty()) {
-            baralho = criarBaralho();
+        Carta carta = baralho.virarCarta();
+        if (carta == null) {
+            baralho.iniciar();
+            carta = baralho.virarCarta();
         }
 
-        int carta = baralho.remove(0);
-
-        if (cartasMao.contains(carta)) {
-            mensagem = "BUST! Saiu outro " + carta + ". Vez do próximo jogador.";
-            cartasMao.clear();
+        mesa.adicionarCarta(carta);
+        mensagem = "Saiu: " + carta.toString();
+        if (mesa.temRepetido()) {
+            mensagem = "BUST! Repetiste o " + carta.getValor() + ". Vez do próximo.";
+            getJogadorAtualObj().limparMao();
+            mesa.limpar();
             trocarJogador();
-            return;
+        } else {
+            carta.aplicarEfeito(getJogadorAtualObj(), mesa);
+            if (getJogadorAtualObj().estaParado()) {
+                pararJogador();
+            }
         }
-
-        cartasMao.add(carta);
-        mensagem = "Carta tirada: " + carta;
     }
 
     public void pararJogador() {
-        int pontosMao = calcularPontosMao();
-
-        if (jogadorAtual == 1) {
-            pontuacaoJogador1 += pontosMao;
-        } else {
-            pontuacaoJogador2 += pontosMao;
+        Jogador atual = getJogadorAtualObj();
+        for (Carta c : mesa.getCartasViradas()) {
+            atual.adicionarCarta(c);
         }
+        int pontosGanhos = atual.calcularPontos();
+        atual.pararRodada();
+        mensagem = "O " + atual.getNome() + " parou e ganhou " + pontosGanhos + " pontos!";
 
-        mensagem = "Jogador " + jogadorAtual + " parou e ganhou " + pontosMao + " pontos.";
-
-        cartasMao.clear();
+        atual.limparMao();
+        mesa.limpar();
         trocarJogador();
     }
 
     private void trocarJogador() {
-        if (jogadorAtual == 1) {
-            jogadorAtual = 2;
-        } else {
-            jogadorAtual = 1;
+        indiceJogadorAtual = (indiceJogadorAtual + 1) % jogadores.size();
+    }
+
+    public int getVencedor() {
+        for (int i = 0; i < jogadores.size(); i++) {            if (jogadores.get(i).getPontuacao() >= 200) return i + 1;
         }
+        return 0;
     }
 
-    public int calcularPontosMao() {
-        int total = 0;
-
-        for (int carta : cartasMao) {
-            total += carta;
-        }
-
-        return total;
-    }
-
-    private List<Integer> criarBaralho() {
-        List<Integer> novoBaralho = new ArrayList<>();
-
-        for (int numero = 1; numero <= 12; numero++) {
-            for (int quantidade = 0; quantidade < numero; quantidade++) {
-                novoBaralho.add(numero);
-            }
-        }
-
-        Collections.shuffle(novoBaralho);
-        return novoBaralho;
-    }
-
-    public int getJogadorAtual() {
-        return jogadorAtual;
-    }
-
-    public int getPontuacaoJogador1() {
-        return pontuacaoJogador1;
-    }
-
-    public int getPontuacaoJogador2() {
-        return pontuacaoJogador2;
-    }
-
-    public List<Integer> getCartasMao() {
-        return cartasMao;
-    }
-
-    public String getMensagem() {
-        return mensagem;
-    }
+    public int getJogadorAtual() { return indiceJogadorAtual + 1; }
+    public Jogador getJogadorAtualObj() { return jogadores.get(indiceJogadorAtual); }
+    public List<Jogador> getJogadores() { return jogadores; }
+    public List<Carta> getCartasMesa() { return mesa.getCartasViradas(); }
+    public String getMensagem() { return mensagem; }
 }
