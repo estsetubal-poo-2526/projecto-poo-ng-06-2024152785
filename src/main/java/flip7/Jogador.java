@@ -10,7 +10,6 @@ public class Jogador {
     private List<Carta> cartasNaMao;
     private boolean parado;
     private int multiplicador;
-    private int pontuacaoTemporaria;
 
     public Jogador(String nome) {
         this.nome = nome;
@@ -18,7 +17,6 @@ public class Jogador {
         this.cartasNaMao = new ArrayList<>();
         this.parado = false;
         this.multiplicador = 1;
-        this.pontuacaoTemporaria = 0;
     }
 
     public Carta virarCarta(Baralho baralho) {
@@ -36,7 +34,7 @@ public class Jogador {
     }
 
     public int calcularPontos() {
-        int total = pontuacaoTemporaria;
+        int total = 0;
 
         for (Carta carta : cartasNaMao) {
             total += carta.getValor();
@@ -71,7 +69,6 @@ public class Jogador {
         cartasNaMao.clear();
         parado = false;
         multiplicador = 1;
-        pontuacaoTemporaria = 0;
     }
 
     public void parar() {
@@ -96,9 +93,5 @@ public class Jogador {
 
     public void setMultiplicador(int multiplicador) {
         this.multiplicador = multiplicador;
-    }
-
-    public void adicionarPontuacaoTemporaria(int pontos) {
-        this.pontuacaoTemporaria += pontos;
     }
 }

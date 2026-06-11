@@ -131,14 +131,17 @@ public class Main extends Application {
 
                     somLigado = viewAtual.isSomLigado();
                     volume = viewAtual.getVolume();
+                    numJogadores = viewAtual.getNumJogadores();
 
                     System.out.println("Som ligado: " + somLigado);
                     System.out.println("Volume: " + volume);
+                    System.out.println("Jogadores: " + numJogadores);
 
                     mostrarMenuPrincipal();
                 },
                 somLigado,
-                volume
+                volume,
+                numJogadores
         );
 
         root.getChildren().add(definicoesView);

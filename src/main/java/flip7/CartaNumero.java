@@ -15,7 +15,8 @@ public class CartaNumero extends Carta {
 
     @Override
     public void aplicarEfeito(Jogador jogador, Mesa mesa) {
-        jogador.adicionarCarta(this);
+        // Carta de número não tem efeito imediato no jogador.
+        // Os pontos são contabilizados quando o jogador decide parar.
     }
 
     @Override

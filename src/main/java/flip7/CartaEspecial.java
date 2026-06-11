@@ -24,28 +24,10 @@ public class CartaEspecial extends Carta {
                 jogador.setMultiplicador(2);
                 break;
 
-            case "+2":
-                jogador.adicionarPontuacaoTemporaria(2);
-                break;
-
-            case "+4":
-                jogador.adicionarPontuacaoTemporaria(4);
-                break;
-
-            case "+6":
-                jogador.adicionarPontuacaoTemporaria(6);
-                break;
-
-            case "+8":
-                jogador.adicionarPontuacaoTemporaria(8);
-                break;
-
-            case "+10":
-                jogador.adicionarPontuacaoTemporaria(10);
-                break;
-
             default:
-                System.out.println("Efeito desconhecido: " + tipoEfeito);
+                // Outros efeitos (como +2, +4, etc.) são baseados no valor da carta
+                // e são processados no final da jogada.
+                break;
         }
     }
 

@@ -16,17 +16,18 @@ public class Mesa {
     }
 
     public boolean temRepetido() {
-        List<Integer> numeros = new ArrayList<>();
+        List<Integer> valores = new ArrayList<>();
 
         for (Carta carta : cartasViradas) {
-            if (carta instanceof CartaNumero) {
-                int valor = carta.getValor();
+            int valor = carta.getValor();
 
-                if (numeros.contains(valor)) {
+            // Só verificamos repetição para valores maiores que 0.
+            // Cartas com valor 0 (como Freeze ou x2) não causam BUST por si só.
+            if (valor > 0) {
+                if (valores.contains(valor)) {
                     return true;
                 }
-
-                numeros.add(valor);
+                valores.add(valor);
             }
         }
 
