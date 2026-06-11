@@ -25,14 +25,10 @@ public class CartaEspecial extends Carta {
                 break;
 
             default:
-                // Outros efeitos (como +2, +4, etc.) são baseados no valor da carta
-                // e são processados no final da jogada.
                 break;
         }
     }
 
     @Override
-    public String toString() {
-        return "Especial: " + tipoEfeito;
-    }
+    public String toString() { return tipoEfeito; }
 }

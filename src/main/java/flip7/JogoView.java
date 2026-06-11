@@ -97,7 +97,6 @@ public class JogoView extends BorderPane {
 
         for (Jogador j : jogo.getJogadores()) {
             Text t = new Text(j.getNome() + ": " + j.getPontuacao());
-            // Highlight current player in green
             String cor = (jogo.getJogadorAtualObj() == j) ? "#00FF00" : "white";
             t.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-fill: " + cor + ";");painelPontuacoes.getChildren().add(t);
         }
@@ -105,7 +104,7 @@ public class JogoView extends BorderPane {
         textoMensagem.setText(jogo.getMensagem());
         areaCartasNormais.getChildren().clear();
         for (Carta c : jogo.getCartasMesa()) {
-            String valor = (c instanceof CartaNumero) ? String.valueOf(c.getValor()) : c.toString().replace("Especial: ", "");
+            String valor = (c instanceof CartaNumero) ? String.valueOf(c.getValor()) : c.toString();
             areaCartasNormais.getChildren().add(new CartaView(valor));
         }
 

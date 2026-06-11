@@ -1,16 +1,18 @@
 package flip7;
 
 import javafx.geometry.Pos;
-import javafx.scene.layout.*;
-import javafx.scene.paint.*;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 public class CartaView extends StackPane {
     public CartaView(String numero) {
         setPrefSize(85, 120);
+
         Rectangle f = new Rectangle(85, 120);
-        f.setArcWidth(18); f.setArcHeight(18);
+        f.setArcWidth(18);
+        f.setArcHeight(18);
 
         Color corFundo;
         Color corBorda;
@@ -34,15 +36,16 @@ public class CartaView extends StackPane {
             };
             corBorda = corFundo.darker();
         } else {
-            if (numero.toLowerCase().contains("freeze")) {
-                corFundo = Color.LIGHTBLUE;
-                corBorda = Color.DARKBLUE;
-            } else if (numero.toLowerCase().contains("x2")) {
+            String label = numero.toLowerCase();
+            if (label.contains("freeze")) {
+                corFundo = Color.DEEPSKYBLUE;
+                corBorda = Color.WHITE;
+            } else if (label.contains("x2")) {
                 corFundo = Color.GOLD;
                 corBorda = Color.DARKORANGE;
             } else {
-                corFundo = Color.rgb(230, 210, 175);
-                corBorda = Color.rgb(130, 75, 160);
+                corFundo = Color.PURPLE;
+                corBorda = Color.WHITE;
             }
         }
 
@@ -51,13 +54,14 @@ public class CartaView extends StackPane {
         f.setStrokeWidth(3);
 
         boolean isNum = numero.matches("\\d+");
-        String estilo = "-fx-font-weight: bold; -fx-font-size: " + (isNum ? "42px" : "18px") + ";";
+        String estilo = "-fx-font-weight: bold; -fx-font-size: " + (isNum ? "42px" : "16px") + ";";
 
-        Text tNum = new Text(numero);
+        Text tNum = new Text(numero.toUpperCase());
         tNum.setStyle(estilo);
-        tNum.setFill(isNum ? Color.WHITE : corBorda.darker());
+        tNum.setFill(isNum ? Color.WHITE : Color.BLACK);
 
-        getChildren().addAll(f, tNum);
-        setAlignment(Pos.CENTER);
+        this.getChildren().clear();
+        this.getChildren().addAll(f, tNum);
+        this.setAlignment(Pos.CENTER);
     }
 }
