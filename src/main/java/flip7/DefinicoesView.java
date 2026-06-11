@@ -98,4 +98,8 @@ public class DefinicoesView extends BorderPane {
     public int getNumJogadores() {
         return (int) sliderJogadores.getValue();
     }
+
+    public Slider getSliderVolume() { return sliderVolume; }
+
+    public CheckBox getCheckSom() { return checkSom; }
 }

@@ -8,6 +8,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.net.URL;
 
 public class Main extends Application {
 
@@ -18,6 +21,8 @@ public class Main extends Application {
     private double volume = 50;
 
     private int numJogadores = 2;
+
+    private MediaPlayer mediaPlayer;
 
     @Override
     public void start(Stage stage) {
@@ -35,6 +40,10 @@ public class Main extends Application {
         stage.setTitle("Vira7");
         stage.setScene(scene);
         stage.show();
+
+        iniciarMusica(); // Adiciona esta linha
+        aplicarFundo();
+        mostrarEcraInicial();
     }
 
     private void aplicarFundo() {
@@ -47,6 +56,25 @@ public class Main extends Application {
         );
 
         root.setBackground(new Background(fundo));
+    }
+
+    private void iniciarMusica() {
+        try {
+            URL resource = getClass().getResource("chill.mp3");
+            if (resource != null) {
+                Media media = new Media(resource.toExternalForm());
+                mediaPlayer = new MediaPlayer(media);
+                mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Toca em loop
+                mediaPlayer.setVolume(volume / 100.0);
+                if (somLigado) {
+                    mediaPlayer.play();
+                }
+            } else {
+                System.err.println("Ficheiro chill.mp3 não encontrado no pacote flip7!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void mostrarEcraInicial() {
@@ -128,15 +156,9 @@ public class Main extends Application {
         DefinicoesView definicoesView = new DefinicoesView(
                 () -> {
                     DefinicoesView viewAtual = (DefinicoesView) root.getChildren().get(0);
-
                     somLigado = viewAtual.isSomLigado();
                     volume = viewAtual.getVolume();
                     numJogadores = viewAtual.getNumJogadores();
-
-                    System.out.println("Som ligado: " + somLigado);
-                    System.out.println("Volume: " + volume);
-                    System.out.println("Jogadores: " + numJogadores);
-
                     mostrarMenuPrincipal();
                 },
                 somLigado,
@@ -144,8 +166,25 @@ public class Main extends Application {
                 numJogadores
         );
 
+        if (mediaPlayer != null) {
+            definicoesView.getSliderVolume().valueProperty().addListener((obs, velho, novo) -> {
+                volume = novo.doubleValue();
+                mediaPlayer.setVolume(volume / 100.0);
+            });
+
+            definicoesView.getCheckSom().selectedProperty().addListener((obs, velho, novo) -> {
+                somLigado = novo;
+                if (somLigado) {
+                    mediaPlayer.play();
+                } else {
+                    mediaPlayer.pause();
+                }
+            });
+        }
+
         root.getChildren().add(definicoesView);
     }
+
 
     private String estiloBotaoMenu() {
         return "-fx-font-size: 26px;" +
