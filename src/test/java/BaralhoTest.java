@@ -27,7 +27,7 @@ public class BaralhoTest {
         while(baralho.virarCarta() != null);
 
         assertEquals(0, baralho.totalCartas());
-        baralho.iniciar(); // O teu método para resetar é iniciar()
+        baralho.iniciar();
         assertTrue(baralho.totalCartas() > 0, "O baralho deve ser reposto.");
     }
 
