@@ -16,10 +16,6 @@ public class CartaEspecial extends Carta {
     @Override
     public void aplicarEfeito(Jogador jogador, Mesa mesa) {
         switch (tipoEfeito.toLowerCase()) {
-            case "freeze":
-                jogador.parar();
-                break;
-
             case "x2":
                 jogador.setMultiplicador(2);
                 break;

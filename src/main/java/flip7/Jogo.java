@@ -30,8 +30,6 @@ public class Jogo {
 
         mesa.adicionarCarta(carta);
 
-        boolean isFreeze = (carta instanceof CartaEspecial ce && ce.getDescricaoEfeito().equalsIgnoreCase("freeze"));
-
         if (mesa.temRepetido()) {
             mensagem = "BUST! Repetiste o " + carta.getValor() + ". Vez do próximo.";
             getJogadorAtualObj().limparMao();
@@ -40,14 +38,6 @@ public class Jogo {
         } else {
             carta.aplicarEfeito(getJogadorAtualObj(), mesa);
             mensagem = "Saiu: " + carta;
-
-            // Se for Freeze, forçamos a paragem imediata
-            if (isFreeze) {
-                mensagem = "FREEZE! " + getJogadorAtualObj().getNome() + " é obrigado a parar!";
-                pararJogador();
-            } else if (getJogadorAtualObj().estaParado()) {
-                pararJogador();
-            }
         }
     }
 

@@ -37,10 +37,7 @@ public class CartaView extends StackPane {
             corBorda = corFundo.darker();
         } else {
             String label = numero.toLowerCase();
-            if (label.contains("freeze")) {
-                corFundo = Color.DEEPSKYBLUE;
-                corBorda = Color.WHITE;
-            } else if (label.contains("x2")) {
+            if (label.contains("x2")) {
                 corFundo = Color.GOLD;
                 corBorda = Color.DARKORANGE;
             } else {

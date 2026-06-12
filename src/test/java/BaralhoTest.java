@@ -34,15 +34,15 @@ public class BaralhoTest {
     @Test
     void testCartasEspeciaisExistem() {
         Baralho baralho = new Baralho();
-        boolean encontrouFreeze = false;
+        boolean encontrouDobro = false;
 
         Carta c;
         while ((c = baralho.virarCarta()) != null) {
-            if (c.toString().toLowerCase().contains("freeze")) {
-                encontrouFreeze = true;
+            if (c.toString().toLowerCase().contains("x2")) {
+                encontrouDobro = true;
                 break;
             }
         }
-        assertTrue(encontrouFreeze, "O baralho deve conter a carta Freeze.");
+        assertTrue(encontrouDobro, "O baralho deve conter a carta Double.");
     }
 }

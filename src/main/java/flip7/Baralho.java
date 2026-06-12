@@ -23,7 +23,6 @@ public class Baralho {
             }
         }
 
-        cartas.add(new CartaEspecial("freeze", 0, id++));
         cartas.add(new CartaEspecial("x2", 0, id++));
         cartas.add(new CartaEspecial("+2", 2, id++));
         cartas.add(new CartaEspecial("+4", 4, id++));
